@@ -15,11 +15,6 @@
 
 > A full-stack web application featuring a sleek dark-mode KPI Performance Dashboard, custom authentication, and user profile management — powered by a **React + TypeScript** frontend and a **FastAPI + SQLAlchemy** backend.
 
----
-
-[Explore Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Roadmap](#-interactive-roadmap) • [API Docs](#-api-endpoints)
-
----
 
 </div>
 
