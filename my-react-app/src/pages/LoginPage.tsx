@@ -4,6 +4,8 @@ import { animate, createScope, createTimeline, stagger } from 'animejs'
 import { Input } from '../components/ui/input'
 import { prefersReducedMotion } from '../lib/motion'
 import { login } from '../lib/api'
+import { Logo } from '../components/Logo'
+import { APP_NAME } from '../lib/config'
 
 
 export default function LoginPage(){
@@ -71,22 +73,31 @@ export default function LoginPage(){
  return (
     <main ref={root} className="grid min-h-screen lg:grid-cols-2">
       {/* left: brand panel, hidden on small screens */}
-      <aside className="relative hidden overflow-hidden border-r border-zinc-800 lg:block">
-        <div className="login-glow pointer-events-none absolute inset-0 m-auto h-96 w-96 rounded-full bg-emerald-500/25 blur-3xl" />
-        <div className="login-brand relative z-10 flex h-full flex-col justify-between p-12 motion-safe:opacity-0">
-          <Link to="/" className="text-lg font-semibold text-emerald-400">GreenApp</Link>
-          <p className="max-w-sm text-3xl font-medium leading-snug">
-            Small changes at home add up to a big drop in your footprint.
-          </p>
-        </div>
-      </aside>
+     <aside className="relative hidden overflow-hidden lg:block">
+  <div className="login-glow pointer-events-none absolute inset-0 m-auto h-96 w-96 rounded-full bg-emerald-500/25 blur-3xl" />
+
+    <div className="relative z-10 flex h-full flex-col items-center justify-center gap-6 p-12 text-center">
+      {/* the logo is NOT inside .login-brand, so its own build-up animation plays untouched */}
+      <Logo size={180} />
+
+      <div className="login-brand motion-safe:opacity-0">
+        <h2 className="text-3xl font-semibold text-emerald-400">{APP_NAME}</h2>
+        <p className="mx-auto mt-3 max-w-xs text-lg leading-snug text-zinc-300">
+          Small changes at home add up to a big drop in your footprint.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+
+
 
       {/* right: form */}
       <section className="grid place-items-center p-6">
         <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm space-y-5">
           <div className="login-field motion-safe:opacity-0">
             <h1 className="text-2xl font-semibold">Welcome back</h1>
-            <p className="mt-1 text-sm text-zinc-400">Log in to see your footprint and bookings.</p>
+            <p className="mt-1 text-sm text-zinc-400">Log in here to see your footprint and bookings.</p>
           </div>
 
           <div className="login-field motion-safe:opacity-0">
