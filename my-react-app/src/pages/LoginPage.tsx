@@ -116,9 +116,7 @@ export default function LoginPage(){
             {loading ? 'Signing in…' : 'Log in'}
           </button>
 
-          <p className="login-field text-center text-sm text-zinc-400 motion-safe:opacity-0">
-            No account? <Link to="/register" className="text-emerald-400 hover:underline">Sign up</Link>
-          </p>
+        
         </form>
       </section>
     </main>
