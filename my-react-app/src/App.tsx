@@ -1,33 +1,31 @@
-import {BrowserRouter, Routes, Route,Link, Navigate} from 'react-router-dom';
-import HomePage from './pages/Homepage';
-import AccountPage from './pages/Accountpage';
-import LoginPage from './pages/LoginPage';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import DashboardLayout from "./components/DashboardLayout";
+import Home from "./pages/Homepage";
+import AccountPage from "./pages/Accountpage";
+import LoginPage from "./pages/LoginPage";
+import PlaceholderPage from "./pages/PlaceholderPage";
+import ProgressPage from "./pages/ProgressPage";
 
 export default function App() {
   return (
     <BrowserRouter>
-      
       <Routes>
-        <Route path = "login" element={<LoginPage/>}/>
+        {/* No sidebar */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path = "account" element = {<AccountPage/>}/>
-        <Route path = "homepage" element = {<HomePage/>}/>
+
+        {/* With sidebar */}
+        <Route element={<DashboardLayout />}>
+          <Route path="/homepage" element={<Home />} />
+          <Route path="/progress" element={<ProgressPage title="Progress" />} />
+          <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+          <Route path="/bookings" element={<PlaceholderPage title="Bookings" />} />
+          <Route path="/support" element={<PlaceholderPage title="Support" />} />
+          <Route path="/information" element={<PlaceholderPage title="Information" />} />
+          <Route path="/profile" element={<PlaceholderPage title="Profile" />} />
+          <Route path="/account" element={<AccountPage />} />
+        </Route>
       </Routes>
-
-      {import.meta.env.DEV && (
-        <nav className="fixed bottom-3 right-3 z-50 flex gap-3 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs text-zinc-400">
-
-          <Link to="/homepage" className="hover:text-zinc-100">
-           
-          </Link>
-          <Link to="/login" className="hover:text-zinc-100">
-            
-          </Link>
-          <Link to="/account" className="hover:text-zinc-100">
-            
-          </Link>
-        </nav>
-        )}
     </BrowserRouter>
   );
 }

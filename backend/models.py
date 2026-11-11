@@ -5,13 +5,30 @@ from sqlalchemy import (MetaData,Table,Column,Integer,String, Text, Float,
 
 SCHEMA = {
     "users": {
-        "username": {"type": "str", "max": 50, "required": True, "unique": True},
-        "email":    {"type": "str", "max": 100, "required": True, "unique": True},
-        "password": {"type": "str", "required": True, "secret": True},
-        "age":      {"type": "int"},
-        "co2eqkg":      {"type": "int"},
+    "username": {"type": "str", "max": 50, "required": True, "unique": True},
+    "email":    {"type": "str", "max": 100, "required": True, "unique": True},
+    "password": {"type": "str", "required": True, "secret": True},
+    "age":      {"type": "int"},
+    "co2eqkg":  {"type": "int"},
+    "role":     {"type": "str", "max": 20, "default": "user"},
+    },
+    "audit_log": {
+    "user_id":    {"type": "int", "fk": "users.id"},
+    "action":     {"type": "str", "max": 100, "required": True},
+    "detail":     {"type": "text"},
+    "created_at": {"type": "datetime"},
 
-    }
+},
+"footprint_log":{
+     "user_id":   {"type": "int", "fk": "users.id", "required": True},
+    "co2eqkg":   {"type": "int", "required": True},
+    "logged_at": {"type": "datetime", "required": True},
+
+
+}
+
+
+    
 }
 
 TYPES = {"str": String, "text": Text, "int": Integer, "float": Float,

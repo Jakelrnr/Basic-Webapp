@@ -1,30 +1,10 @@
-import { useEffect, useRef } from "react";
-
-export default function HomePage() {
-  const boxRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!boxRef.current) return;
-
-    const animation = boxRef.current.animate(
-      [
-        { transform: "translateX(0) rotate(0deg)" },
-        { transform: "translateX(250px) rotate(360deg)" },
-      ],
-      { duration: 1000, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
-    );
-
-    return () => animation.cancel();
-  }, []);
-
+export default function Home() {
   return (
-    <div
-      ref={boxRef}
-      style={{
-        width: "100px",
-        height: "100px",
-        backgroundColor: "dodgerblue",
-      }}
-    />
+    <div>
+      <h2 className="text-2xl font-bold text-emerald-500">Welcome to the Dashboard</h2>
+      <p className="mt-2 text-zinc-400">
+        This is your personal dashboard. Here you can view your progress, settings, and other important information.
+      </p>
+    </div>
   );
 }

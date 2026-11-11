@@ -61,7 +61,7 @@ export default function LoginPage(){
         username: data.get('username') as string,
         password: data.get('password') as string,
       })
-      navigate('/account')
+      navigate('/homepage')
     } catch  {
       setError('Invalid credentials')
       shake()
