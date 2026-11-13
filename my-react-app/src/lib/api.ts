@@ -43,3 +43,65 @@ export async function logout(): Promise<void> {
         if (!res.ok) throw new Error("Couldn't load KPIs");
         return res.json();
       }
+
+export interface RegisterData{
+    username:string
+    email:string
+    password:string
+}
+
+export async function register(data:RegisterData):Promise<{success:Boolean; username:string; status:string}>{
+    const res = await fetch(`${API_URL}/api/register`,  {
+        method: "POST",
+        credentials: "include", // Essential for receiving HttpOnly session cookie
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    })
+
+    if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+    
+        throw new Error(
+            errorBody.detail || "Registration failed :("
+        );
+    }
+    
+    return await res.json();
+
+}
+
+
+export type Auth0LoginResult =
+    | {
+        status: "approved";
+        user: {
+            id: number;
+            username: string;
+            role: string;
+        };
+    }
+    | {
+        status: "pending";
+        message: string;
+    };
+
+export async function loginWithAuth0(
+    accessToken: string
+): Promise<Auth0LoginResult> {
+    const res = await fetch(`${API_URL}/api/auth/auth0`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        },
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        throw new Error(data.detail || "Auth0 login failed");
+    }
+
+    return data as Auth0LoginResult;
+}
