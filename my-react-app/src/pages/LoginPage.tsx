@@ -92,33 +92,55 @@ export default function LoginPage(){
 
 
 
-      {/* right: form */}
-      <section className="grid place-items-center p-6">
-        <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm space-y-5">
-          <div className="login-field motion-safe:opacity-0">
-            <h1 className="text-2xl font-semibold">Welcome back</h1>
-            <p className="mt-1 text-sm text-zinc-400">Log in here to see your footprint and bookings.</p>
-          </div>
+    
+<section className="grid place-items-center p-6">
+  <form
+    ref={formRef}
+    onSubmit={handleSubmit}
+    className="w-full max-w-sm space-y-5"
+  >
+    <div className="login-field motion-safe:opacity-0">
+      <h1 className="text-2xl font-semibold">Welcome back</h1>
+      <p className="mt-1 text-sm text-zinc-400">
+        Log in here to see your footprint and bookings.
+      </p>
+    </div>
 
-          <div className="login-field motion-safe:opacity-0">
-            <Input label="Username" name="username" autoComplete="username" required />
-          </div>
-          <div className="login-field motion-safe:opacity-0">
-            <Input label="Password" name="password" type="password" autoComplete="current-password" required />
-          </div>
+    <div className="login-field motion-safe:opacity-0">
+      <Input label="Username" name="username" autoComplete="username" required />
+    </div>
 
-          {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
+    <div className="login-field motion-safe:opacity-0">
+      <Input label="Password" name="password" type="password" autoComplete="current-password" required />
+    </div>
 
-          <button
-            disabled={loading}
-            className="login-field w-full rounded-lg bg-emerald-500 py-2.5 font-medium text-zinc-950 hover:bg-emerald-400 disabled:opacity-50 motion-safe:opacity-0"
-          >
-            {loading ? 'Signing in…' : 'Log in'}
-          </button>
+    {error && (
+      <p role="alert" className="text-sm text-red-400">
+        {error}
+      </p>
+    )}
 
-        
-        </form>
-      </section>
-    </main>
+    <button
+      disabled={loading}
+      className="login-field w-full rounded-lg bg-emerald-500 py-2.5 font-medium text-zinc-950 hover:bg-emerald-400 disabled:opacity-50 motion-safe:opacity-0"
+    >
+      {loading ? 'Signing in…' : 'Log in'}
+    </button>
+
+    {/* Sign Up Link */}
+    <div className="login-field text-center text-sm text-zinc-400 motion-safe:opacity-0">
+      Don't have an account?{' '}
+      <Link
+        to="/signup"
+        className="font-medium text-emerald-400 hover:underline"
+      >
+        Sign up
+      </Link>
+    </div>
+
+  </form>
+</section>
+</main>
+
   )
 }

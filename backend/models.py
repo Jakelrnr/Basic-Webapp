@@ -1,63 +1,71 @@
-from sqlalchemy import (MetaData,Table,Column,Integer,String, Text, Float,
+from sqlalchemy import (MetaData, Table, Column, Integer, String, Text, Float,
                         Boolean, DateTime, ForeignKey, inspect, text)
-
-
 
 SCHEMA = {
     "users": {
-    "username": {"type": "str", "max": 50, "required": True, "unique": True},
-    "email":    {"type": "str", "max": 100, "required": True, "unique": True},
-    "password": {"type": "str", "required": True, "secret": True},
-    "age":      {"type": "int"},
-    "co2eqkg":  {"type": "int"},
-    "role":     {"type": "str", "max": 20, "default": "user"},
+        "username":       {"type": "str", "max": 50, "required": True, "unique": True},
+        "email":          {"type": "str", "max": 100, "required": True, "unique": True},
+        "password":       {"type": "str", "required": False, "secret": True},
+        "age":            {"type": "int"},
+        "co2eqkg":        {"type": "int", "default": 0},
+        "target_co2eqkg": {"type": "int", "default": 2000},
+        "area":           {"type": "str", "max": 50},
+        "role":           {"type": "str", "max": 20, "default": "user"},
+        "status":         {"type": "str", "max": 20, "default": "pending"},    # pending | approved | rejected | suspended
+        "oauth_provider": {"type": "str", "max": 20, "default": "local"},      # local | google | discord
+        "oauth_id":       {"type": "str", "max": 100},                         # External ID from Google or Discord
+        "avatar_url":     {"type": "str", "max": 255},
     },
     "audit_log": {
-    "user_id":    {"type": "int", "fk": "users.id"},
-    "action":     {"type": "str", "max": 100, "required": True},
-    "detail":     {"type": "text"},
-    "created_at": {"type": "datetime"},
-
-},
-"footprint_log":{
-     "user_id":   {"type": "int", "fk": "users.id", "required": True},
-    "co2eqkg":   {"type": "int", "required": True},
-    "logged_at": {"type": "datetime", "required": True},
-
-
+        "user_id":    {"type": "int", "fk": "users.id"},
+        "action":     {"type": "str", "max": 100, "required": True},
+        "detail":     {"type": "text"},
+        "created_at": {"type": "datetime"},
+    },
+    "footprint_log": {
+        "user_id":   {"type": "int", "fk": "users.id", "required": True},
+        "co2eqkg":   {"type": "int", "required": True},
+        "logged_at": {"type": "datetime", "required": True},
+        "note":      {"type": "str", "max": 255},
+    }
 }
 
-
-    
+TYPES = {
+    "str": String,
+    "text": Text,
+    "int": Integer,
+    "float": Float,
+    "bool": Boolean,
+    "datetime": DateTime,
 }
-
-TYPES = {"str": String, "text": Text, "int": Integer, "float": Float,
-         "bool": Boolean, "datetime": DateTime}
 metadata = MetaData()
-tables:dict[str,Table]={} 
+tables: dict[str, Table] = {}
 
-def build_column(name:str,spec:dict)->Column:
+def build_column(name: str, spec: dict) -> Column:
     kind = spec['type']
-    coltype = String(spec.get("max",255)) if kind=="str"else TYPES[kind]()
+    coltype = String(spec.get("max", 255)) if kind == "str" else TYPES[kind]()
     args = [coltype]
     if "fk" in spec:
         args.append(ForeignKey(spec["fk"]))
     return Column(
-        name,*args, nullable = not spec.get("required",False),
-        unique = spec.get("unique",False),
-        default = spec.get("default"),
+        name,
+        *args,
+        nullable=not spec.get("required", False),
+        unique=spec.get("unique", False),
+        default=spec.get("default"),
     )
 
 for table_name, cols in SCHEMA.items():
     tables[table_name] = Table(
-        table_name, metadata,
+        table_name,
+        metadata,
         Column("id", Integer, primary_key=True),
         *[build_column(n, s) for n, s in cols.items()],
     )
 
 def sync_schema(engine):
     """Create missing tables, and add missing columns to existing ones."""
-    metadata.create_all(engine)            # makes app.db + any missing tables
+    metadata.create_all(engine)
     insp = inspect(engine)
     with engine.begin() as conn:
         for name, table in tables.items():
