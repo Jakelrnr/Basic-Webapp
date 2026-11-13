@@ -83,7 +83,7 @@ export default function SignUpPage(){
         const password = data.get('password') as string
         const confirmPassword = data.get('confirmPassword') as string
     
-        // Frontend validation checks
+      
         if (password !== confirmPassword) {
           setError('Passwords do not match')
           shake()
@@ -109,7 +109,7 @@ export default function SignUpPage(){
 
     return (
         <main ref={root} className="grid min-h-screen lg:grid-cols-2 bg-[#120D1A] text-zinc-100">
-          {/* Left: Brand Panel */}
+    
           <aside className="relative hidden overflow-hidden lg:block border-r border-white/5 bg-[#171022]">
             <div className="signup-glow pointer-events-none absolute inset-0 m-auto h-96 w-96 rounded-full bg-emerald-500/20 blur-3xl" />
             <div className="relative z-10 flex h-full flex-col items-center justify-center gap-6 p-12 text-center">
@@ -123,7 +123,7 @@ export default function SignUpPage(){
             </div>
           </aside>
     
-          {/* Right: Registration Form */}
+        
           <section className="grid place-items-center p-6">
             <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
               <div className="signup-field motion-safe:opacity-0">
@@ -166,13 +166,12 @@ export default function SignUpPage(){
                 {loading ? 'Creating Account...' : 'Sign Up'}
               </button>
     
-              {/* Social OAuth Separator */}
+             
               <div className="signup-field relative my-6 flex items-center justify-center text-xs uppercase text-zinc-500 motion-safe:opacity-0">
                 <div className="absolute inset-x-0 h-px bg-zinc-800" />
                 <span className="relative bg-[#120D1A] px-3 font-medium">Or continue with</span>
               </div>
     
-              {/* OAuth Buttons */}
               <div className="signup-field grid grid-cols-2 gap-3 motion-safe:opacity-0">
                 <a
                   href="http://localhost:8001/api/auth/google"
